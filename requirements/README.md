@@ -15,3 +15,10 @@ You can also forward custom arguments to the underlying training script. Example
 ```bash
 python run_lstm.py --epochs 5 --seeds 3,4 --models unreg
 ```
+
+By default, the run starts without `Large Strong Dropout` and
+`Large Strong Weight Decay`. To include every model, use:
+
+```bash
+python run_lstm.py --models all
+```

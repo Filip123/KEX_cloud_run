@@ -112,10 +112,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--models",
         type=str,
-        default="all",
+        default="Small Unreg,Large Unreg,Large Dropout,Large Weight Decay",
         help=(
-            "Model selection. Use 'all', 'unreg', 'regularized', or a comma-separated "
-            "list of exact model names."
+            "Model selection. Default skips the strong regularization variants. "
+            "Use 'all', 'unreg', 'regularized', or a comma-separated list of exact "
+            "model names."
         ),
     )
     parser.add_argument(
