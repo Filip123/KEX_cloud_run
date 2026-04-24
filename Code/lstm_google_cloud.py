@@ -724,23 +724,23 @@ def main() -> None:
         "completed": [],
     }
 
-    print("TensorFlow version:", tf.__version__)
-    print("Data shape:", data.shape)
-    print("Date range:", data.index.min().date(), "to", data.index.max().date())
-    print("Using", len(feature_cols), "features")
-    print("Artifact files:")
+    print("TensorFlow version:", tf.__version__, flush=True)
+    print("Data shape:", data.shape, flush=True)
+    print("Date range:", data.index.min().date(), "to", data.index.max().date(), flush=True)
+    print("Using", len(feature_cols), "features", flush=True)
+    print("Artifact files:", flush=True)
     for key, path in paths.items():
-        print(" ", key, "->", path)
+        print(" ", key, "->", path, flush=True)
 
     for seed in seeds:
-        print(f"\n===== Running seed {seed} =====")
+        print(f"\n===== Running seed {seed} =====", flush=True)
         for model_name in models_to_run:
             combo_key = (model_name, seed)
             if not args.overwrite and combo_key in seed_run_results and combo_key in seed_pred_results:
-                print(f"Skipping {model_name}, seed={seed} because artifacts already exist")
+                print(f"Skipping {model_name}, seed={seed} because artifacts already exist", flush=True)
                 continue
 
-            print(f"Running {model_name}, seed={seed}")
+            print(f"Running {model_name}, seed={seed}", flush=True)
             start = time.time()
             res, preds = run_model_for_seed(
                 model_name,
@@ -771,15 +771,16 @@ def main() -> None:
                 f"  done in {elapsed_min:.1f} min | "
                 f"test_acc={res['test_acc'].mean():.4f} | "
                 f"test_auc={res['test_auc'].mean():.4f} | "
-                f"detail_rows={len(detail_df)}"
+                f"detail_rows={len(detail_df)}",
+                flush=True,
             )
 
     manifest["finished_at"] = pd.Timestamp.utcnow().isoformat()
     persist_seed_artifacts(paths, seed_run_results, seed_pred_results, manifest)
 
-    print("\nFinished. Saved artifacts:")
+    print("\nFinished. Saved artifacts:", flush=True)
     for path in paths.values():
-        print(" ", path)
+        print(" ", path, flush=True)
 
 
 if __name__ == "__main__":
