@@ -106,8 +106,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--seeds",
         type=str,
-        default="3,4,5,6,7",
-        help="Comma-separated seed list, for example '3,4,5,6,7'.",
+        default="3,4,5,6,7,8,9",
+        help="Comma-separated seed list, for example '3,4,5,6,7,8,9'.",
     )
     parser.add_argument(
         "--models",
