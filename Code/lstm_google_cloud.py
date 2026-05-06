@@ -38,6 +38,9 @@ LARGE_LSTM_CFG = {"lstm_units": 64, "dense_units": 32}
 
 THESIS_DROPOUT_GRID = [0.10, 0.20, 0.30, 0.40, 0.50]
 THESIS_WEIGHT_DECAY_GRID = [1e-6, 1e-5, 1e-4, 1e-3, 1e-2]
+# Mixed grid for a one-off experiment that emphasizes larger penalties
+# while keeping a few smaller baseline values for comparison.
+WIDE_WEIGHT_DECAY_GRID = [1e-4, 1e-3, 1e-2, 5e-2, 1e-1, 2e-1, 5e-1, 1.0]
 STRONG_DROPOUT_GRID = [0.60, 0.70, 0.80]
 STRONG_WEIGHT_DECAY_GRID = [5e-2, 1e-1, 2e-1]
 
@@ -61,6 +64,12 @@ MODEL_SPECS = {
         "runner": "tuned",
         "regularization": "weight_decay",
         "param_grid": THESIS_WEIGHT_DECAY_GRID,
+        "kwargs": LARGE_LSTM_CFG,
+    },
+    "Large Wide Weight Decay": {
+        "runner": "tuned",
+        "regularization": "weight_decay",
+        "param_grid": WIDE_WEIGHT_DECAY_GRID,
         "kwargs": LARGE_LSTM_CFG,
     },
     "Large Strong Dropout": {
@@ -106,15 +115,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--seeds",
         type=str,
-        default="3,4,5,6,7,8,9",
-        help="Comma-separated seed list, for example '3,4,5,6,7,8,9'.",
+        default="3,4,5,6,7,8",
+        help="Comma-separated seed list, for example '3,4,5,6,7,8'.",
     )
     parser.add_argument(
         "--models",
         type=str,
-        default="Small Unreg,Large Unreg,Large Dropout,Large Weight Decay",
+        default="Large Wide Weight Decay",
         help=(
-            "Model selection. Default skips the strong regularization variants. "
+            "Model selection. Default runs only the mixed large weight decay experiment. "
             "Use 'all', 'unreg', 'regularized', or a comma-separated list of exact "
             "model names."
         ),
